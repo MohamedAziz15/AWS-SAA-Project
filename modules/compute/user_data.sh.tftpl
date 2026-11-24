@@ -1,0 +1,59 @@
+#!/bin/bash
+set -euxo pipefail
+
+dnf install -y python3 python3-pip amazon-cloudwatch-agent
+python3 -m pip install pymysql boto3
+
+mkdir -p /opt/app
+# Amazon RDS CA bundle so the app can verify the database TLS certificate
+curl -sSfo /opt/app/rds-ca.pem https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+cat > /opt/app/app.py <<'PYEOF'
+${app_py}
+PYEOF
+
+cat > /etc/systemd/system/webapp.service <<UNIT
+[Unit]
+Description=Manara demo web app
+After=network-online.target
+
+[Service]
+Environment=AWS_REGION=${region}
+Environment=DB_SECRET_ARN=${db_secret_arn}
+Environment=DB_HOST=${db_host}
+Environment=DB_NAME=${db_name}
+Environment=APP_PORT=${app_port}
+ExecStart=/usr/bin/python3 /opt/app/app.py
+Restart=always
+StandardOutput=append:/var/log/webapp.log
+StandardError=append:/var/log/webapp.log
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+
+systemctl daemon-reload
+systemctl enable --now webapp
+
+# Ship memory metrics + app logs to CloudWatch
+cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<'CWEOF'
+{
+  "metrics": {
+    "append_dimensions": { "AutoScalingGroupName": "$${aws:AutoScalingGroupName}" },
+    "metrics_collected": {
+      "mem": { "measurement": ["mem_used_percent"] },
+      "disk": { "measurement": ["used_percent"], "resources": ["/"] }
+    }
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          { "file_path": "/var/log/webapp.log", "log_group_name": "/manara/app/webapp", "log_stream_name": "{instance_id}" }
+        ]
+      }
+    }
+  }
+}
+CWEOF
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 \
+  -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s

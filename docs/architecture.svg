@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 860" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker>
+    <style>
+      .t{font-weight:600;font-size:14px;fill:#0f172a}
+      .s{font-size:11.5px;fill:#475569}
+      .lbl{font-size:12px;font-weight:600}
+      .svc{fill:#fff;stroke-width:1.5;rx:8}
+      .ln{stroke:#334155;stroke-width:1.6;fill:none;marker-end:url(#a)}
+      .lnd{stroke:#7c3aed;stroke-width:1.4;fill:none;stroke-dasharray:5 4;marker-end:url(#ad)}
+    </style>
+  </defs>
+  <rect width="1240" height="860" fill="#ffffff"/>
+  <text x="24" y="34" font-size="20" font-weight="700" fill="#0f172a">Project 1: Scalable Web Application with ALB and Auto Scaling</text>
+  <text x="24" y="56" class="s">Terraform-managed · 2 Availability Zones · compute and database in private subnets · no SSH (SSM Session Manager)</text>
+
+  <!-- Users -->
+  <rect x="24" y="96" width="120" height="56" class="svc" stroke="#334155"/>
+  <text x="84" y="121" text-anchor="middle" class="t">Users</text>
+  <text x="84" y="139" text-anchor="middle" class="s">browser</text>
+
+  <!-- Edge -->
+  <rect x="200" y="80" width="560" height="96" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-dasharray="6 4"/>
+  <text x="212" y="98" class="lbl" fill="#7c3aed">AWS global edge</text>
+  <rect x="220" y="108" width="160" height="56" class="svc" stroke="#7c3aed"/>
+  <text x="300" y="132" text-anchor="middle" class="t">Route 53</text>
+  <text x="300" y="150" text-anchor="middle" class="s">alias → ALB + health check</text>
+  <rect x="420" y="108" width="320" height="56" class="svc" stroke="#7c3aed"/>
+  <text x="580" y="132" text-anchor="middle" class="t">Amazon CloudFront</text>
+  <text x="580" y="150" text-anchor="middle" class="s">/static/* cached from S3 · /* forwarded to ALB</text>
+
+  <!-- Region -->
+  <rect x="24" y="200" width="1192" height="636" rx="12" fill="#f8fafc" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="38" y="222" class="lbl" fill="#0369a1">AWS Region (us-east-1)</text>
+
+  <!-- VPC -->
+  <rect x="44" y="236" width="860" height="584" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="58" y="256" class="lbl" fill="#15803d">VPC 10.0.0.0/16 · NACLs on every tier</text>
+  <rect x="600" y="228" width="140" height="24" rx="6" fill="#fff" stroke="#16a34a"/>
+  <text x="670" y="245" text-anchor="middle" class="s">Internet Gateway</text>
+
+  <!-- AZ columns -->
+  <rect x="60" y="266" width="410" height="540" rx="10" fill="none" stroke="#94a3b8" stroke-dasharray="6 4"/>
+  <text x="72" y="284" class="lbl" fill="#475569">Availability Zone A</text>
+  <rect x="478" y="266" width="410" height="540" rx="10" fill="none" stroke="#94a3b8" stroke-dasharray="6 4"/>
+  <text x="490" y="284" class="lbl" fill="#475569">Availability Zone B</text>
+
+  <!-- Public subnets -->
+  <rect x="72" y="294" width="386" height="120" rx="8" fill="#ecfdf5" stroke="#22c55e"/>
+  <text x="84" y="312" class="s" font-weight="600">Public subnet 10.0.0.0/20</text>
+  <rect x="490" y="294" width="386" height="120" rx="8" fill="#ecfdf5" stroke="#22c55e"/>
+  <text x="502" y="312" class="s" font-weight="600">Public subnet 10.0.16.0/20</text>
+
+  <!-- ALB spanning -->
+  <rect x="250" y="324" width="440" height="52" class="svc" stroke="#ea580c"/>
+  <text x="470" y="346" text-anchor="middle" class="t">Application Load Balancer</text>
+  <text x="470" y="364" text-anchor="middle" class="s">HTTP/HTTPS listeners · /admin* → 403 rule · TG health check /health</text>
+  <rect x="90" y="330" width="130" height="40" class="svc" stroke="#ea580c"/>
+  <text x="155" y="355" text-anchor="middle" class="t" font-size="13">NAT Gateway</text>
+
+  <!-- App subnets -->
+  <rect x="72" y="434" width="386" height="170" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="84" y="452" class="s" font-weight="600">Private app subnet 10.0.64.0/20</text>
+  <rect x="490" y="434" width="386" height="170" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="502" y="452" class="s" font-weight="600">Private app subnet 10.0.80.0/20</text>
+  <rect x="100" y="470" width="150" height="60" class="svc" stroke="#ea580c"/>
+  <text x="175" y="496" text-anchor="middle" class="t">EC2 instance</text>
+  <text x="175" y="514" text-anchor="middle" class="s">AL2023 · IMDSv2</text>
+  <rect x="690" y="470" width="150" height="60" class="svc" stroke="#ea580c"/>
+  <text x="765" y="496" text-anchor="middle" class="t">EC2 instance</text>
+  <text x="765" y="514" text-anchor="middle" class="s">AL2023 · IMDSv2</text>
+  <rect x="230" y="540" width="480" height="50" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-dasharray="5 3"/>
+  <text x="470" y="561" text-anchor="middle" class="t">Auto Scaling Group (min 2 · max 4) + Launch Template</text>
+  <text x="470" y="579" text-anchor="middle" class="s">target tracking: CPU 50% and ALB requests/target · step scaling at CPU ≥ 80%</text>
+
+  <!-- Data subnets -->
+  <rect x="72" y="624" width="386" height="170" rx="8" fill="#fdf4ff" stroke="#c026d3"/>
+  <text x="84" y="642" class="s" font-weight="600">Private data subnet 10.0.128.0/20 (no internet route)</text>
+  <rect x="490" y="624" width="386" height="170" rx="8" fill="#fdf4ff" stroke="#c026d3"/>
+  <text x="502" y="642" class="s" font-weight="600">Private data subnet 10.0.144.0/20 (no internet route)</text>
+  <rect x="100" y="670" width="200" height="66" class="svc" stroke="#2563eb"/>
+  <text x="200" y="696" text-anchor="middle" class="t">RDS MySQL primary</text>
+  <text x="200" y="714" text-anchor="middle" class="s">encrypted · TLS required</text>
+  <rect x="640" y="670" width="200" height="66" class="svc" stroke="#2563eb"/>
+  <text x="740" y="696" text-anchor="middle" class="t">RDS standby</text>
+  <text x="740" y="714" text-anchor="middle" class="s">automatic failover</text>
+  <line x1="300" y1="703" x2="640" y2="703" stroke="#2563eb" stroke-width="1.6" stroke-dasharray="6 4"/>
+  <text x="470" y="696" text-anchor="middle" class="s">Multi-AZ synchronous replication</text>
+
+  <!-- Regional services -->
+  <text x="924" y="256" class="lbl" fill="#0369a1">Regional services</text>
+  <rect x="924" y="270" width="276" height="56" class="svc" stroke="#dc2626"/>
+  <text x="1062" y="294" text-anchor="middle" class="t">AWS WAF (on ALB)</text>
+  <text x="1062" y="312" text-anchor="middle" class="s">OWASP core · SQLi · bad inputs · IP rep · rate limit</text>
+  <rect x="924" y="342" width="276" height="56" class="svc" stroke="#16a34a"/>
+  <text x="1062" y="366" text-anchor="middle" class="t">Amazon S3 (static assets)</text>
+  <text x="1062" y="384" text-anchor="middle" class="s">private · read only via CloudFront OAC</text>
+  <rect x="924" y="414" width="276" height="56" class="svc" stroke="#dc2626"/>
+  <text x="1062" y="438" text-anchor="middle" class="t">Secrets Manager</text>
+  <text x="1062" y="456" text-anchor="middle" class="s">RDS master credentials (managed by RDS)</text>
+  <rect x="924" y="486" width="276" height="56" class="svc" stroke="#db2777"/>
+  <text x="1062" y="510" text-anchor="middle" class="t">Systems Manager</text>
+  <text x="1062" y="528" text-anchor="middle" class="s">Session Manager: no SSH, no bastion</text>
+  <rect x="924" y="558" width="276" height="56" class="svc" stroke="#db2777"/>
+  <text x="1062" y="582" text-anchor="middle" class="t">CloudWatch</text>
+  <text x="1062" y="600" text-anchor="middle" class="s">dashboard · alarms · logs (app, WAF, RDS)</text>
+  <rect x="924" y="630" width="276" height="56" class="svc" stroke="#db2777"/>
+  <text x="1062" y="654" text-anchor="middle" class="t">Amazon SNS</text>
+  <text x="1062" y="672" text-anchor="middle" class="s">email notifications for alarms</text>
+  <rect x="924" y="702" width="276" height="56" class="svc" stroke="#64748b"/>
+  <text x="1062" y="726" text-anchor="middle" class="t">Terraform remote state</text>
+  <text x="1062" y="744" text-anchor="middle" class="s">S3 (versioned) + DynamoDB lock table</text>
+
+  <!-- Flows -->
+  <path class="ln" d="M144,124 L218,124"/>
+  <path class="ln" d="M144,140 C200,190 380,190 418,150"/>
+  <text x="250" y="192" class="s">HTTPS</text>
+  <path class="ln" d="M520,164 L520,322"/>
+  <text x="528" y="200" class="s">dynamic requests</text>
+  <path class="ln" d="M300,164 C300,250 360,300 380,322"/>
+  <path class="lnd" d="M740,136 C900,136 1062,180 1062,340"/>
+  <text x="850" y="128" class="s" fill="#7c3aed">/static/* (OAC)</text>
+  <path class="lnd" d="M922,298 L692,340"/>
+  <path class="ln" d="M380,376 L230,470"/>
+  <path class="ln" d="M560,376 L720,470"/>
+  <path class="ln" d="M175,530 L190,668"/>
+  <path class="ln" d="M720,530 C600,620 330,640 280,668"/>
+  <text x="560" y="618" class="s">MySQL 3306 (SG: app → db only)</text>
+  <path class="ln" d="M120,470 L120,372"/>
+  <text x="126" y="430" class="s">egress via NAT</text>
+  <path class="lnd" d="M840,488 C890,470 900,445 922,442"/>
+</svg>

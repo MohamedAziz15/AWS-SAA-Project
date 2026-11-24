@@ -1,0 +1,19 @@
+# Copy to terraform.tfvars and edit. terraform.tfvars is git-ignored.
+region      = "us-east-1"
+project     = "manara-p1"
+environment = "dev"
+
+alert_email = "you@example.com"
+
+# Optional: Route 53 hosted zone you own -> creates app.<domain> alias to the ALB + health check
+# domain_name = "example.com"
+# record_name = "app"
+
+# Optional: ACM certificate (same region) for HTTPS on the ALB
+# alb_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/..."
+
+# Cost vs. availability
+single_nat_gateway = true
+asg_min            = 2
+asg_desired        = 2
+asg_max            = 4
